@@ -8,7 +8,7 @@
 </head>
 <body>
 
-  <!-- 상단바: 앱 제목 + 외부 링크 + 도움말 -->
+  <!-- 상단바: 앱 제목 + 외부 링크 + 도움말 + 효과음/가이드라인 토글 -->
   <header class="topbar">
     <div class="topbar-title">
       <span class="topbar-emoji">🔭</span>
@@ -24,81 +24,57 @@
       <button class="link-btn" id="btn-help" type="button">
         <span aria-hidden="true">❓</span> 도움말
       </button>
+      <span class="topbar-divider" aria-hidden="true"></span>
+      <button class="link-btn toggle-btn active" id="btn-toggle-sound" type="button" aria-pressed="true" title="효과음 켜기/끄기">
+        <span aria-hidden="true">🔊</span> 효과음
+      </button>
+      <button class="link-btn toggle-btn active" id="btn-toggle-guide" type="button" aria-pressed="true" title="가이드라인 켜기/끄기">
+        <span aria-hidden="true">📐</span> 가이드라인
+      </button>
     </nav>
   </header>
 
-  <!-- 본문: 좌측 컨트롤 패널 + 우측 시뮬레이션 -->
-  <main class="main-content">
-
-    <!-- 좌측: 컨트롤 패널 -->
-    <section class="control-panel glass">
-
-      <div class="panel-block">
-        <h2 class="panel-title">현재 배율</h2>
-        <div class="mag-display" id="mag-exponent">10⁰ m</div>
-        <div class="mag-sub" id="mag-multiple">기준(1 m)의 10⁰배</div>
-        <div class="mag-compare" id="mag-compare">사람의 눈높이에서 바라본 세상</div>
+  <!-- 가로 배율 눈금자 + 조작 바 -->
+  <section class="ruler-bar glass">
+    <div class="ruler-bar-top">
+      <div class="mag-quick">
+        <span class="mag-quick-exp" id="mag-exponent">10⁰ m</span>
+        <span class="mag-quick-sub" id="mag-multiple">기준(1 m)의 10⁰배</span>
+        <span class="mag-quick-compare" id="mag-compare">사람의 눈높이에서 바라본 세상</span>
       </div>
-
-      <div class="panel-block zoom-buttons">
-        <button class="zoom-btn" id="btn-zoom-in" type="button" title="더 작은 세계로 (줌인)">
-          🔬 줌인 <span class="zoom-btn-sub">(더 작게)</span>
-        </button>
-        <button class="zoom-btn reset-btn" id="btn-reset" type="button" title="기준점(1m)으로 되돌아가기">
-          🎯 기준점 <span class="zoom-btn-sub">(1m)</span>
-        </button>
-        <button class="zoom-btn" id="btn-zoom-out" type="button" title="더 큰 세계로 (줌아웃)">
-          🌌 줌아웃 <span class="zoom-btn-sub">(더 크게)</span>
-        </button>
-      </div>
-
-      <div class="panel-block auto-buttons">
-        <button class="auto-btn" id="btn-auto-in" type="button" title="원자 방향으로 자동 재생">
-          ▶ 자동 줌인
-        </button>
-        <button class="auto-btn" id="btn-auto-out" type="button" title="우주 방향으로 자동 재생">
-          ▶ 자동 줌아웃
-        </button>
-      </div>
-
-      <div class="panel-block speed-block">
-        <h2 class="panel-title">전환 속도 <span class="hint" id="speed-value">보통 (0.45초)</span></h2>
+      <div class="speed-inline">
+        <span class="panel-title">전환 속도 <span class="hint" id="speed-value">보통 (0.45초)</span></span>
         <input type="range" id="speed-slider" class="speed-slider" min="150" max="1500" step="50" value="450"
                aria-label="줌 전환 속도 조절">
-        <div class="speed-labels"><span>빠르게</span><span>느리게</span></div>
       </div>
+    </div>
 
-      <div class="panel-block ruler-block">
-        <h2 class="panel-title">배율 눈금자 <span class="hint">드래그하거나 눈금을 클릭하세요</span></h2>
-        <div class="ruler-wrap">
-          <div class="ruler-track" id="ruler-track">
-            <div class="ruler-fill" id="ruler-fill"></div>
-            <div class="ruler-handle" id="ruler-handle" tabindex="0" role="slider"
-                 aria-label="배율 조절 핸들"></div>
-          </div>
-          <div class="ruler-ticks" id="ruler-ticks"></div>
+    <div class="ruler-controls-row">
+      <button class="zoom-btn" id="btn-zoom-in" type="button" title="더 작은 세계로 (줌인)">🔬 줌인</button>
+
+      <div class="ruler-wrap-h">
+        <div class="ruler-ticks-h" id="ruler-ticks"></div>
+        <div class="ruler-track-h" id="ruler-track">
+          <div class="ruler-fill-h" id="ruler-fill"></div>
+          <div class="ruler-handle" id="ruler-handle" tabindex="0" role="slider" aria-label="배율 조절 핸들"></div>
         </div>
       </div>
 
-      <div class="panel-block desc-block">
-        <h2 class="panel-title" id="step-title">일상 속 우리의 눈높이</h2>
-        <p class="step-desc" id="step-desc"></p>
-      </div>
+      <button class="zoom-btn" id="btn-zoom-out" type="button" title="더 큰 세계로 (줌아웃)">🌌 줌아웃</button>
+    </div>
 
-      <div class="panel-block sound-block">
-        <label class="sound-toggle">
-          <input type="checkbox" id="chk-sound" checked>
-          <span>🔊 효과음</span>
-        </label>
-        <label class="sound-toggle">
-          <input type="checkbox" id="chk-guide" checked>
-          <span>📐 가이드라인</span>
-        </label>
-      </div>
+    <div class="ruler-extra-row">
+      <button class="zoom-btn reset-btn" id="btn-reset" type="button" title="기준점(1m)으로 되돌아가기">🎯 기준점</button>
+      <button class="auto-btn" id="btn-auto-in" type="button" title="원자 방향으로 자동 재생">▶ 자동 줌인</button>
+      <button class="auto-btn" id="btn-auto-out" type="button" title="우주 방향으로 자동 재생">▶ 자동 줌아웃</button>
+      <span class="hint ruler-hint">드래그하거나 눈금을 클릭하세요 · 마우스 휠 / 두 손가락 핀치로도 조작할 수 있어요</span>
+    </div>
+  </section>
 
-    </section>
+  <!-- 본문: 좌측 시뮬레이션 + 우측 읽을거리 -->
+  <main class="main-content">
 
-    <!-- 우측: SVG 시뮬레이션 영역 -->
+    <!-- 좌측: SVG 시뮬레이션 영역 -->
     <section class="stage-panel">
       <div class="stage-wrap" id="stage-wrap">
         <svg id="stage" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice"
@@ -128,9 +104,13 @@
             <text id="guide-inner-label" x="500" y="435" text-anchor="middle" class="guide-inner-label">10⁻¹ m</text>
           </g>
         </svg>
-
-        <div class="stage-nav-hint" id="stage-nav-hint">마우스 휠 · 두 손가락 핀치로도 조작할 수 있어요</div>
       </div>
+    </section>
+
+    <!-- 우측: 과학 설명 읽을거리 -->
+    <section class="content-panel glass">
+      <h2 id="step-title">일상 속 우리의 눈높이</h2>
+      <div class="step-desc" id="step-desc"></div>
     </section>
 
   </main>
@@ -144,7 +124,8 @@
         1977년 임스(Eames) 부부가 만든 다큐멘터리 <strong>《Powers of Ten》</strong>은
         피크닉을 즐기는 사람의 손등(1 m)에서 시작해 10배씩 시야를 넓혀 우주 끝까지,
         다시 10배씩 좁혀 원자 속 쿼크까지 보여주는 과학 영상입니다.
-        이 웹앱은 그 발상을 그대로 따라, 사진을 넘기며 배율을 직접 조작해볼 수 있게 만들었습니다.
+        이 웹앱은 그 발상을 그대로 따라, 사진을 넘기며 배율을 직접 조작하고
+        각 단계의 과학 이야기를 읽어볼 수 있게 만들었습니다.
       </p>
       <h3>조작 방법</h3>
       <ul>
@@ -154,14 +135,34 @@
         <li>▶ <strong>자동 줌인 / 자동 줌아웃</strong>: 누르면 손을 떼도 계속 한 방향으로 재생되고, 다시 누르면 멈춥니다.</li>
         <li>🎚 <strong>눈금자</strong>: 핸들을 드래그하거나 원하는 눈금을 클릭하면 그 배율로 바로 이동합니다.</li>
         <li>🐢 <strong>전환 속도</strong>: 슬라이더로 화면이 바뀌는 속도를 느리게·빠르게 조절합니다.</li>
-        <li>📐 <strong>가이드라인</strong>: 한 단계 더 확대하면 보이는 영역(전체의 1/10)을 점선 사각형으로 표시합니다.</li>
+        <li>📐 <strong>가이드라인</strong>(상단바): 한 단계 더 확대하면 보이는 영역(전체의 1/10)을 점선 사각형으로 표시합니다.</li>
+        <li>🔊 <strong>효과음</strong>(상단바): 줌 전환 시 나는 효과음을 켜고 끕니다.</li>
         <li>🖱 <strong>마우스 휠 / 두 손가락 핀치</strong>: 시뮬레이션 화면 위에서 확대·축소할 수 있습니다.(태블릿 권장)</li>
       </ul>
-      <h3>참고 자료</h3>
-      <p>
-        <a class="link-btn" href="https://www.youtube.com/watch?v=0fKBhvDjuy0" target="_blank" rel="noopener noreferrer">▶ 원본 영상 보기</a>
-        <a class="link-btn" href="https://ko.wikipedia.org/wiki/Powers_of_Ten" target="_blank" rel="noopener noreferrer">📖 위키백과에서 더 알아보기</a>
-      </p>
+
+      <h3>출처 및 저작권</h3>
+      <div class="credit-box">
+        <p>
+          <strong>원작 다큐멘터리</strong> — 《Powers of Ten》(1977), 찰스 & 레이 임스(Charles and Ray Eames) 감독,
+          Eames Office / IBM 제작.
+        </p>
+        <p>
+          <strong>사진 자료</strong> — 이 앱에서 사용하는 45장의 단계별 사진은 위 다큐멘터리와, 이를 기반으로 한
+          Eames Office 공식 웹사이트 <em>powersof10.com</em>(© 2010 Eames Office)에서 공개했던 스틸컷을
+          바탕으로 합니다. 모든 사진의 저작권은 <strong>Eames Office</strong>에 있으며,
+          이 웹앱은 영리 목적이 아닌 중·고등학교 과학 수업 자료로만 사용됩니다.
+        </p>
+        <p>
+          <strong>과학 설명 텍스트</strong> — 각 단계의 설명글은 원작 다큐멘터리와 공식 웹사이트가 다루는 주제(스케일,
+          관련 과학 개념)를 참고하여, 이 웹앱 제작자가 중·고등학교 교육과정에 맞춰 새로 집필한 글입니다.
+          원문을 그대로 옮긴 것이 아니며, 특정 사실 관계는 위키백과 등 공개 자료로 다시 확인하시길 권장합니다.
+        </p>
+        <p class="credit-links">
+          <a class="link-btn" href="https://www.youtube.com/watch?v=0fKBhvDjuy0" target="_blank" rel="noopener noreferrer">▶ 원본 영상 보기</a>
+          <a class="link-btn" href="https://web.archive.org/web/20140618123647/http://www.powersof10.com/" target="_blank" rel="noopener noreferrer">🌐 원작 웹사이트(archive.org)</a>
+          <a class="link-btn" href="https://ko.wikipedia.org/wiki/Powers_of_Ten" target="_blank" rel="noopener noreferrer">📖 위키백과에서 더 알아보기</a>
+        </p>
+      </div>
     </div>
   </div>
 
