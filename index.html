@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Power of Ten — 원자에서 우주까지</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- 상단바: 앱 제목 + 외부 링크 + 도움말 -->
+  <header class="topbar">
+    <div class="topbar-title">
+      <span class="topbar-emoji">🔭</span>
+      <h1>Power of Ten <span class="topbar-sub">원자에서 우주까지</span></h1>
+    </div>
+    <nav class="topbar-links">
+      <a class="link-btn" href="https://www.youtube.com/watch?v=0fKBhvDjuy0" target="_blank" rel="noopener noreferrer">
+        <span aria-hidden="true">▶</span> 영상 보기
+      </a>
+      <a class="link-btn" href="https://ko.wikipedia.org/wiki/Powers_of_Ten" target="_blank" rel="noopener noreferrer">
+        <span aria-hidden="true">📖</span> 위키백과
+      </a>
+      <button class="link-btn" id="btn-help" type="button">
+        <span aria-hidden="true">❓</span> 도움말
+      </button>
+    </nav>
+  </header>
+
+  <!-- 본문: 좌측 컨트롤 패널 + 우측 시뮬레이션 -->
+  <main class="main-content">
+
+    <!-- 좌측: 컨트롤 패널 -->
+    <section class="control-panel glass">
+
+      <div class="panel-block">
+        <h2 class="panel-title">현재 배율</h2>
+        <div class="mag-display" id="mag-exponent">10⁰ m</div>
+        <div class="mag-sub" id="mag-multiple">기준(1 m)의 10⁰배</div>
+        <div class="mag-compare" id="mag-compare">사람의 눈높이에서 바라본 세상</div>
+      </div>
+
+      <div class="panel-block zoom-buttons">
+        <button class="zoom-btn" id="btn-zoom-in" type="button" title="더 작은 세계로 (줌인)">
+          🔬 줌인 <span class="zoom-btn-sub">(더 작게)</span>
+        </button>
+        <button class="zoom-btn reset-btn" id="btn-reset" type="button" title="기준점(1m)으로 되돌아가기">
+          🎯 기준점 <span class="zoom-btn-sub">(1m)</span>
+        </button>
+        <button class="zoom-btn" id="btn-zoom-out" type="button" title="더 큰 세계로 (줌아웃)">
+          🌌 줌아웃 <span class="zoom-btn-sub">(더 크게)</span>
+        </button>
+      </div>
+
+      <div class="panel-block auto-buttons">
+        <button class="auto-btn" id="btn-auto-in" type="button" title="원자 방향으로 자동 재생">
+          ▶ 자동 줌인
+        </button>
+        <button class="auto-btn" id="btn-auto-out" type="button" title="우주 방향으로 자동 재생">
+          ▶ 자동 줌아웃
+        </button>
+      </div>
+
+      <div class="panel-block speed-block">
+        <h2 class="panel-title">전환 속도 <span class="hint" id="speed-value">보통 (0.45초)</span></h2>
+        <input type="range" id="speed-slider" class="speed-slider" min="150" max="1500" step="50" value="450"
+               aria-label="줌 전환 속도 조절">
+        <div class="speed-labels"><span>빠르게</span><span>느리게</span></div>
+      </div>
+
+      <div class="panel-block ruler-block">
+        <h2 class="panel-title">배율 눈금자 <span class="hint">드래그하거나 눈금을 클릭하세요</span></h2>
+        <div class="ruler-wrap">
+          <div class="ruler-track" id="ruler-track">
+            <div class="ruler-fill" id="ruler-fill"></div>
+            <div class="ruler-handle" id="ruler-handle" tabindex="0" role="slider"
+                 aria-label="배율 조절 핸들"></div>
+          </div>
+          <div class="ruler-ticks" id="ruler-ticks"></div>
+        </div>
+      </div>
+
+      <div class="panel-block desc-block">
+        <h2 class="panel-title" id="step-title">일상 속 우리의 눈높이</h2>
+        <p class="step-desc" id="step-desc"></p>
+      </div>
+
+      <div class="panel-block sound-block">
+        <label class="sound-toggle">
+          <input type="checkbox" id="chk-sound" checked>
+          <span>🔊 효과음</span>
+        </label>
+        <label class="sound-toggle">
+          <input type="checkbox" id="chk-guide" checked>
+          <span>📐 가이드라인</span>
+        </label>
+      </div>
+
+    </section>
+
+    <!-- 우측: SVG 시뮬레이션 영역 -->
+    <section class="stage-panel">
+      <div class="stage-wrap" id="stage-wrap">
+        <svg id="stage" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice"
+             xmlns="http://www.w3.org/2000/svg" aria-label="배율 시뮬레이션 화면">
+          <!-- 현재/다음 프레임용 이미지 두 장을 겹쳐 크로스페이드 -->
+          <image id="img-current" x="0" y="0" width="1000" height="1000"></image>
+          <image id="img-next" x="0" y="0" width="1000" height="1000" opacity="0"></image>
+
+          <!-- 우측 상단 배율 배지 -->
+          <g id="badge-group" transform="translate(20,20)">
+            <rect id="badge-bg" x="0" y="0" width="230" height="64" rx="14" class="svg-badge-bg"></rect>
+            <text id="badge-exp" x="16" y="30" class="svg-badge-exp">10⁰ m</text>
+            <text id="badge-label" x="16" y="52" class="svg-badge-label">기준 배율</text>
+          </g>
+
+          <!-- 하단 스케일바 -->
+          <g id="scalebar-group" transform="translate(20, 940)">
+            <line x1="0" y1="0" x2="140" y2="0" class="scalebar-line"></line>
+            <line x1="0" y1="-6" x2="0" y2="6" class="scalebar-line"></line>
+            <line x1="140" y1="-6" x2="140" y2="6" class="scalebar-line"></line>
+            <text id="scalebar-text" x="0" y="20" class="scalebar-text">1 m</text>
+          </g>
+
+          <!-- 가이드라인: 한 단계 더 확대하면 보이는 영역(전체의 1/10)을 표시 -->
+          <g id="guide-group">
+            <rect id="guide-inner-rect" x="450" y="450" width="100" height="100" class="guide-inner-rect"></rect>
+            <text id="guide-inner-label" x="500" y="435" text-anchor="middle" class="guide-inner-label">10⁻¹ m</text>
+          </g>
+        </svg>
+
+        <div class="stage-nav-hint" id="stage-nav-hint">마우스 휠 · 두 손가락 핀치로도 조작할 수 있어요</div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 도움말 모달 -->
+  <div class="modal-overlay" id="modal-overlay" hidden>
+    <div class="modal glass" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <button class="modal-close" id="modal-close" type="button" aria-label="닫기">✕</button>
+      <h2 id="modal-title">🔭 이 시뮬레이션은요</h2>
+      <p>
+        1977년 임스(Eames) 부부가 만든 다큐멘터리 <strong>《Powers of Ten》</strong>은
+        피크닉을 즐기는 사람의 손등(1 m)에서 시작해 10배씩 시야를 넓혀 우주 끝까지,
+        다시 10배씩 좁혀 원자 속 쿼크까지 보여주는 과학 영상입니다.
+        이 웹앱은 그 발상을 그대로 따라, 사진을 넘기며 배율을 직접 조작해볼 수 있게 만들었습니다.
+      </p>
+      <h3>조작 방법</h3>
+      <ul>
+        <li>🔬 <strong>줌인 버튼</strong>: 10분의 1 크기로 더 작은 세계를 봅니다.</li>
+        <li>🌌 <strong>줌아웃 버튼</strong>: 10배 큰 세계를 봅니다.</li>
+        <li>🎯 <strong>기준점 버튼</strong>: 언제든 1m 기준 화면으로 바로 되돌아갑니다.</li>
+        <li>▶ <strong>자동 줌인 / 자동 줌아웃</strong>: 누르면 손을 떼도 계속 한 방향으로 재생되고, 다시 누르면 멈춥니다.</li>
+        <li>🎚 <strong>눈금자</strong>: 핸들을 드래그하거나 원하는 눈금을 클릭하면 그 배율로 바로 이동합니다.</li>
+        <li>🐢 <strong>전환 속도</strong>: 슬라이더로 화면이 바뀌는 속도를 느리게·빠르게 조절합니다.</li>
+        <li>📐 <strong>가이드라인</strong>: 한 단계 더 확대하면 보이는 영역(전체의 1/10)을 점선 사각형으로 표시합니다.</li>
+        <li>🖱 <strong>마우스 휠 / 두 손가락 핀치</strong>: 시뮬레이션 화면 위에서 확대·축소할 수 있습니다.(태블릿 권장)</li>
+      </ul>
+      <h3>참고 자료</h3>
+      <p>
+        <a class="link-btn" href="https://www.youtube.com/watch?v=0fKBhvDjuy0" target="_blank" rel="noopener noreferrer">▶ 원본 영상 보기</a>
+        <a class="link-btn" href="https://ko.wikipedia.org/wiki/Powers_of_Ten" target="_blank" rel="noopener noreferrer">📖 위키백과에서 더 알아보기</a>
+      </p>
+    </div>
+  </div>
+
+  <footer class="app-footer">
+    © 2026 Designed &amp; Developed by 두리쌤. All rights reserved.
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
