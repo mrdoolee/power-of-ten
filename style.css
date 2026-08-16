@@ -186,13 +186,13 @@ body {
 .speed-inline {
   display: flex;
   align-items: center;
-  gap: 10px;
-  min-width: 200px;
+  gap: 8px;
+  min-width: 0;
 }
 .speed-slider {
   -webkit-appearance: none;
   appearance: none;
-  width: 140px;
+  width: 110px;
   height: 6px;
   border-radius: 999px;
   background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
@@ -318,6 +318,18 @@ body {
   flex-wrap: wrap;
 }
 
+/* 자동 줌인/줌아웃 버튼과 전환 속도 슬라이더는 서로 붙어있는 하나의 묶음으로 보이게 한다 */
+.autoplay-speed-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 4px 12px 4px 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--glass-border);
+}
+
 .auto-btn {
   flex: 0 0 auto;
   padding: 8px 14px;
@@ -373,9 +385,6 @@ body {
 .svg-badge-bg { fill: rgba(10, 15, 30, 0.55); stroke: rgba(255,255,255,0.25); stroke-width: 1; vector-effect: non-scaling-stroke; }
 .svg-badge-exp { fill: #5eead4; font-size: 22px; font-weight: 700; font-family: inherit; }
 .svg-badge-label { fill: #d7dcf5; font-size: 11px; font-family: inherit; }
-
-.scalebar-line { stroke: #f4f6ff; stroke-width: 2; vector-effect: non-scaling-stroke; }
-.scalebar-text { fill: #f4f6ff; font-size: 13px; font-family: inherit; }
 
 /* 가이드라인(다음 확대 단계 미리보기 사각형) */
 #guide-group { transition: opacity 0.2s; }

@@ -213,8 +213,6 @@ const el = {
   badgeGroup: document.getElementById('badge-group'),
   badgeExp: document.getElementById('badge-exp'),
   badgeLabel: document.getElementById('badge-label'),
-  scalebarGroup: document.getElementById('scalebar-group'),
-  scalebarText: document.getElementById('scalebar-text'),
   stageWrap: document.getElementById('stage-wrap'),
   stage: document.getElementById('stage'),
   btnHelp: document.getElementById('btn-help'),
@@ -262,7 +260,6 @@ function updateStaticUI(idx) {
 
   el.badgeExp.innerHTML = `${expToSVG(step.exp)} m`;
   el.badgeLabel.textContent = step.title;
-  el.scalebarText.innerHTML = `${expToSVG(step.exp)} m`;
 
   // 눈금자 핸들 위치 (0~100%, 왼쪽이 0)
   const percent = (idx / (TOTAL - 1)) * 100;
@@ -302,7 +299,6 @@ function syncStageOverlayScale() {
   if (!w) return;
   const k = Math.max(0.6, Math.min(STAGE_REF_WIDTH / w, 2.5)).toFixed(3);
   el.badgeGroup.setAttribute('transform', `translate(20,20) scale(${k})`);
-  el.scalebarGroup.setAttribute('transform', `translate(20,940) scale(${k})`);
   el.guideInnerLabel.setAttribute('transform', `translate(500,435) scale(${k}) translate(-500,-435)`);
 }
 

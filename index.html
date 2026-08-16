@@ -42,11 +42,6 @@
         <span class="mag-quick-sub" id="mag-multiple">기준(1 m)의 10⁰배</span>
         <span class="mag-quick-compare" id="mag-compare">사람의 눈높이에서 바라본 세상</span>
       </div>
-      <div class="speed-inline">
-        <span class="panel-title">전환 속도 <span class="hint" id="speed-value">보통 (0.45초)</span></span>
-        <input type="range" id="speed-slider" class="speed-slider" min="150" max="1500" step="50" value="450"
-               aria-label="줌 전환 속도 조절">
-      </div>
     </div>
 
     <div class="ruler-controls-row">
@@ -65,8 +60,15 @@
 
     <div class="ruler-extra-row">
       <button class="zoom-btn reset-btn" id="btn-reset" type="button" title="기준점(1m)으로 되돌아가기">🎯 기준점</button>
-      <button class="auto-btn" id="btn-auto-in" type="button" title="원자 방향으로 자동 재생">▶ 자동 줌인</button>
-      <button class="auto-btn" id="btn-auto-out" type="button" title="우주 방향으로 자동 재생">▶ 자동 줌아웃</button>
+      <div class="autoplay-speed-group">
+        <button class="auto-btn" id="btn-auto-in" type="button" title="원자 방향으로 자동 재생">▶ 자동 줌인</button>
+        <button class="auto-btn" id="btn-auto-out" type="button" title="우주 방향으로 자동 재생">▶ 자동 줌아웃</button>
+        <div class="speed-inline">
+          <span class="panel-title">전환 속도 <span class="hint" id="speed-value">보통 (0.45초)</span></span>
+          <input type="range" id="speed-slider" class="speed-slider" min="150" max="1500" step="50" value="450"
+                 aria-label="줌 전환 속도 조절">
+        </div>
+      </div>
       <span class="hint ruler-hint">드래그하거나 눈금을 클릭하세요 · 마우스 휠 / 두 손가락 핀치로도 조작할 수 있어요</span>
     </div>
   </section>
@@ -88,14 +90,6 @@
             <rect id="badge-bg" x="0" y="0" width="230" height="64" rx="14" class="svg-badge-bg"></rect>
             <text id="badge-exp" x="16" y="30" class="svg-badge-exp">10⁰ m</text>
             <text id="badge-label" x="16" y="52" class="svg-badge-label">기준 배율</text>
-          </g>
-
-          <!-- 하단 스케일바 -->
-          <g id="scalebar-group" transform="translate(20, 940)">
-            <line x1="0" y1="0" x2="140" y2="0" class="scalebar-line"></line>
-            <line x1="0" y1="-6" x2="0" y2="6" class="scalebar-line"></line>
-            <line x1="140" y1="-6" x2="140" y2="6" class="scalebar-line"></line>
-            <text id="scalebar-text" x="0" y="20" class="scalebar-text">1 m</text>
           </g>
 
           <!-- 가이드라인: 한 단계 더 확대하면 보이는 영역(전체의 1/10)을 표시 -->
