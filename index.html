@@ -61,8 +61,10 @@
     <div class="ruler-extra-row">
       <button class="zoom-btn reset-btn" id="btn-reset" type="button" title="기준점(1m)으로 되돌아가기">🎯 기준점</button>
       <div class="autoplay-speed-group">
-        <button class="auto-btn" id="btn-auto-in" type="button" title="원자 방향으로 자동 재생">▶ 자동 줌인</button>
-        <button class="auto-btn" id="btn-auto-out" type="button" title="우주 방향으로 자동 재생">▶ 자동 줌아웃</button>
+        <div class="auto-btn-pair">
+          <button class="auto-btn" id="btn-auto-in" type="button" title="원자 방향으로 자동 재생">▶ 자동 줌인</button>
+          <button class="auto-btn" id="btn-auto-out" type="button" title="우주 방향으로 자동 재생">▶ 자동 줌아웃</button>
+        </div>
         <div class="speed-inline">
           <span class="panel-title">전환 속도 <span class="hint" id="speed-value">보통 (0.45초)</span></span>
           <input type="range" id="speed-slider" class="speed-slider" min="150" max="1500" step="50" value="450"
